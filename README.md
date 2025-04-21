@@ -1,73 +1,60 @@
-# Welcome to your Lovable project
+# Cafe MRP
 
-## Project info
+A modern cafe website featuring a responsive design, video backgrounds, and interactive elements built with React, TypeScript, and Tailwind CSS.
 
-**URL**: https://lovable.dev/projects/c6a795f4-1bd7-4f47-a45c-007dfbaea456
+## Features
 
-## How can I edit this code?
+- Responsive design for all device sizes
+- Video backgrounds with fallback images
+- Interactive elements using Framer Motion
+- WhatsApp floating button for easy contact
+- Map integration showing the cafe location
+- Menu display with filtering options
+- Reservation system
 
-There are several ways of editing your application.
+## Installation
 
-**Use Lovable**
+1. Clone the repository:
+```bash
+git clone https://github.com/Anni8055/Cafe-MRP.git
+cd Cafe-MRP
+```
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/c6a795f4-1bd7-4f47-a45c-007dfbaea456) and start prompting.
+2. Install dependencies:
+```bash
+npm install
+```
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Large Video Files
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Some video files exceed GitHub's 100MB file size limit and are not included in the repository:
+- luxury-cafe.mp4 (177MB)
+- cafe-ambience-optimized.mp4 (162MB)
+- coffee-pouring.mp4 (151MB)
 
-**Use GitHub Codespaces**
+The application is configured to use smaller video files that are included in the repository:
+- couple-date-restaurant.mp4 (24MB)
+- cafe-bar-ambience.mp4 (11MB)
+- cafe-atmosphere.mp4 (2.2MB)
+- cafe-ambience.mp4 (2.7MB)
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+If you want to use the larger, higher-quality videos, you can:
+1. Download them from a shared drive or other storage
+2. Place them in the `public/videos/` directory
+3. Update the `HERO_VIDEO` constant in `src/components/home/Hero.tsx` if needed
 
-## What technologies are used for this project?
+## Credits
 
-This project is built with:
+- Video backgrounds: Pexels and Unsplash
+- Icons: Font Awesome
+- Fonts: Google Fonts (Playfair Display and Poppins)
+- Map: Google Maps API
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## License
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/c6a795f4-1bd7-4f47-a45c-007dfbaea456) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+MIT License
