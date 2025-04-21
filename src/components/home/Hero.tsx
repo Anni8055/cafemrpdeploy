@@ -2,8 +2,8 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 
-// Selected video for the hero section
-const HERO_VIDEO = '/videos/couple-date-restaurant.mp4';
+// Selected video for the hero section - using one of the smaller files
+const HERO_VIDEO = '/videos/couple-date-restaurant.mp4'; // 24MB
 
 // Cafe-themed text overlay
 const HERO_TEXT = 'A perfect romantic dining experience';
@@ -49,6 +49,18 @@ const Hero = () => {
       const handleError = () => {
         console.error(`Error loading video: ${HERO_VIDEO}`);
         setVideoError(true);
+        
+        // If the main video fails, try fallback videos in order of preference
+        if (HERO_VIDEO === '/videos/couple-date-restaurant.mp4') {
+          console.log('Trying fallback video: cafe-bar-ambience.mp4');
+          videoElement.src = '/videos/cafe-bar-ambience.mp4';
+        } else if (videoElement.src.includes('cafe-bar-ambience.mp4')) {
+          console.log('Trying fallback video: cafe-atmosphere.mp4');
+          videoElement.src = '/videos/cafe-atmosphere.mp4';
+        } else if (videoElement.src.includes('cafe-atmosphere.mp4')) {
+          console.log('Trying fallback video: cafe-ambience.mp4');
+          videoElement.src = '/videos/cafe-ambience.mp4';
+        }
       };
       
       videoElement.addEventListener('loadeddata', handleLoad);
