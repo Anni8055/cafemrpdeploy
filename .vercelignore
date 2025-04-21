@@ -1,0 +1,15 @@
+README.md
+.git
+node_modules
+public/videos/*
+*.mp4
+*.mov
+*.avi
+*.wmv
+*.flv
+.env
+.env.*
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.DS_Store 
