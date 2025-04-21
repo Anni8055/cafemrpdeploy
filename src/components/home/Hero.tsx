@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { useEffect, useRef, useState, memo, useCallback } from 'react';
+import { memo } from 'react';
 
-// Single optimized video source
-const VIDEO_SOURCE = '/videos/couple-date-restaurant.mp4';
+// High-quality cafe image
+const HERO_IMAGE = 'https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
 
 // Cafe-themed text overlay
 const HERO_TEXT = 'A perfect romantic dining experience';
@@ -57,122 +57,29 @@ const ScrollIndicator = memo(() => (
 ));
 
 const Hero = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const [videoError, setVideoError] = useState(false);
-  const [isUserInteracted, setIsUserInteracted] = useState(false);
-  
-  // Memoize event handlers to reduce re-renders
-  const handleLoad = useCallback(() => {
-    setIsVideoLoaded(true);
-  }, []);
-  
-  const handleError = useCallback(() => {
-    console.error(`Error loading video: ${VIDEO_SOURCE}`);
-    setVideoError(true);
-  }, []);
-  
-  const handleInteraction = useCallback(() => {
-    if (!isUserInteracted && videoRef.current) {
-      setIsUserInteracted(true);
-      videoRef.current.play().catch(err => {
-        console.error("Couldn't play video after interaction:", err);
-      });
-    }
-  }, [isUserInteracted]);
-  
-  // Handle user interaction to enable autoplay on iOS - optimized to run less frequently
-  useEffect(() => {
-    if (isUserInteracted) return; // Skip if already interacted
-    
-    // Use passive event listeners for better performance
-    window.addEventListener('click', handleInteraction, { passive: true });
-    window.addEventListener('touchstart', handleInteraction, { passive: true });
-
-    return () => {
-      window.removeEventListener('click', handleInteraction);
-      window.removeEventListener('touchstart', handleInteraction);
-    };
-  }, [isUserInteracted, handleInteraction]);
-
-  // Handle video loading - simplified for single video
-  useEffect(() => {
-    const videoElement = videoRef.current;
-    if (!videoElement) return;
-    
-    // Reset states
-    setIsVideoLoaded(false);
-    setVideoError(false);
-    
-    // Apply optimized video settings
-    videoElement.muted = true;
-    videoElement.loop = true;
-    videoElement.playsInline = true;
-    videoElement.preload = "auto";
-    videoElement.src = VIDEO_SOURCE;
-    
-    // Add event listeners
-    videoElement.addEventListener('loadeddata', handleLoad);
-    videoElement.addEventListener('error', handleError);
-    
-    // Start loading
-    videoElement.load();
-    
-    // Attempt autoplay
-    const playPromise = videoElement.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        // Autoplay was prevented, will wait for user interaction
-        console.log('Autoplay prevented, waiting for user interaction');
-      });
-    }
-    
-    return () => {
-      videoElement.removeEventListener('loadeddata', handleLoad);
-      videoElement.removeEventListener('error', handleError);
-      
-      // Cleanup
-      if (videoElement.src) {
-        videoElement.pause();
-        videoElement.src = '';
-        videoElement.load();
-      }
-    };
-  }, [handleLoad, handleError]);
-
   return (
     <div className="relative h-screen overflow-hidden will-change-transform">
-      {/* Video Background with Fallback Image */}
+      {/* Image Background */}
       <div className="absolute inset-0">
-        {/* Fallback image while video loads */}
-        {!isVideoLoaded && (
-          <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ 
-              backgroundImage: "url('/hero-bg.jpg')", 
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-            aria-hidden="true"
-          ></div>
-        )}
-        
-        {/* Video background - optimized loading */}
-        <video 
-          ref={videoRef}
-          autoPlay 
-          muted 
-          loop
-          playsInline
-          className={`absolute inset-0 w-full h-full object-cover transform-gpu will-change-opacity transition-opacity duration-500 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
-          poster="/hero-bg.jpg"
-          aria-label="Romantic cafe atmosphere video"
+        {/* High-quality background image with lazy loading */}
+        <motion.div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transform-gpu"
+          initial={{ scale: 1.1, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          style={{ 
+            backgroundImage: `url(${HERO_IMAGE})`,
+            willChange: 'transform, opacity'
+          }}
         >
-          Your browser does not support the video tag.
-        </video>
-        
-        {/* Optimized overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/75 to-black/85"></div>
+          {/* Optimized overlay with animated gradient */}
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/75 to-black/85"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+          />
+        </motion.div>
       </div>
 
       {/* Hero Content */}
@@ -198,14 +105,15 @@ const Hero = () => {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
+          className="mb-12"
         >
           <HeroActions />
         </motion.div>
 
-        {/* Scroll Down Indicator - memoized */}
+        <HeroText />
         <ScrollIndicator />
       </div>
     </div>
